@@ -6,24 +6,43 @@ typedef struct Transaction {
     char type[10];
     float amount;
     char category[20];
-} Transaction;
-// TODO : implement a function where
-int auto_increment()
+} Transaction;    
+
+void file_opening_check(FILE* file)
 {
-    static int transaction_id = 0;
-    transaction_id++;
-    return transaction_id;
+    if (file == NULL)
+    {
+        printf("file doesnt exsist!\n");
+        exit(EXIT_FAILURE);
+    }
 }
+
+int get_final_id()
+{
+    FILE* id_file = fopen("id.txt", "r");
+    file_opening_check(id_file);
+
+    int id = 0;
+    int temp;
+
+    while (fscanf(id_file, "%d", &temp) == 1) {
+        id = temp;
+    }
+
+    fclose(id_file);
+    return id; 
+}    
+
 int id_tracker()
 {
     FILE* id_file = fopen("id.txt", "a+");
-    int transaction_id = auto_increment(); 
+    file_opening_check(id_file);
+    int transaction_id = get_final_id() + 1; 
     
     fprintf(id_file, "%d\n", transaction_id);
     fclose(id_file);
-
     return transaction_id;
-}
+}    
 
 void get_transaction_details(Transaction *transaction)
 {
@@ -40,17 +59,7 @@ void get_transaction_details(Transaction *transaction)
     printf("Please enter the Category: FOOD ");
     fflush(stdout);
     scanf("%s", transaction->category);
-}
-
-// TODO: implementing file opening check
-void file_opening_check(FILE* file)
-{
-    if (file == NULL)
-    {
-        printf("file doesnt exsist!\n");
-        exit(EXIT_FAILURE);
-    }
-}
+}    
 
 
 // function to write the date to the file
@@ -66,14 +75,12 @@ void write_to_file(Transaction transaction, int transaction_id, FILE* file)
 // TODO: implementing add transation
 void add_transaction(Transaction transaction, int transaction_id)
 {
-    //transaction.id = transaction_id;
     // open a file transaction.txt as an example and put transaction id and details there
     FILE *file = fopen("finance.txt", "a+");
     
     // file checking
     file_opening_check(file);
     
-    //TODO: writing to finance.txt
     write_to_file(transaction, transaction_id, file);
     
     //close the file
@@ -86,6 +93,7 @@ int main(void)
     Transaction transaction;
     int user_option = 1;
     printf("1) Add new transaction");
+    
     while (1)
     {
         if (user_option == 1)
@@ -95,6 +103,6 @@ int main(void)
             add_transaction(transaction, transaction_id);
         }
     } 
-
+    
     return (0);
 }
