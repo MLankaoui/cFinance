@@ -8,7 +8,7 @@ typedef struct Transaction {
     char category[20];
 } Transaction;
 
-void add_transaction_details(Transaction *transaction)
+void get_transaction_details(Transaction *transaction)
 {
     printf("Please enter the date: 2025-04-01");
     fflush(stdout);
@@ -78,7 +78,7 @@ int main(void)
     {
         if (user_option == 1)
         {
-            add_transaction_details(&transaction);
+            get_transaction_details(&transaction);
             int transaction_id = auto_increment(); 
             add_transaction(transaction, transaction_id);
         }
