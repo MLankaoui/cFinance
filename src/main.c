@@ -2,12 +2,28 @@
 #include <stdlib.h>
 
 typedef struct Transaction {
-    //int id;
     char date[10];
     char type[10];
     float amount;
     char category[20];
 } Transaction;
+
+void add_transaction_details(Transaction *transaction)
+{
+    printf("Please enter the date: 2025-04-01");
+    fflush(stdout);
+    scanf("%s", transaction->date);
+    fflush(stdout);
+    printf("Please enter the Type: (INCOME - EXPENSE) ");
+    fflush(stdout);
+    scanf("%s", transaction->type);
+    printf("Please enter the Amount: 2000 ");
+    fflush(stdout);
+    scanf("%f", &transaction->amount);
+    printf("Please enter the Category: FOOD ");
+    fflush(stdout);
+    scanf("%s", transaction->category);
+}
 
 // TODO: implementing file opening check
 void file_opening_check(FILE* file)
@@ -60,21 +76,8 @@ int main(void)
     {
         if (user_option == 1)
         {
-            printf("Please enter the date: 2025-04-01");
-            fflush(stdout);
-            scanf("%s", transaction.date);
-            fflush(stdout);
-            printf("Please enter the Type: (INCOME - EXPENSE) ");
-            fflush(stdout);
-            scanf("%s", transaction.type);
-            printf("Please enter the Amount: 2000 ");
-            fflush(stdout);
-            scanf("%f", &transaction.amount);
-            printf("Please enter the Category: FOOD ");
-            fflush(stdout);
-            scanf("%s", transaction.category);
+            add_transaction_details(&transaction);
             int transaction_id = auto_increment(); 
-
             add_transaction(transaction, transaction_id);
         }
     } 
