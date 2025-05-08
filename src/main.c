@@ -7,6 +7,23 @@ typedef struct Transaction {
     float amount;
     char category[20];
 } Transaction;
+// TODO : implement a function where
+int auto_increment()
+{
+    static int transaction_id = 0;
+    transaction_id++;
+    return transaction_id;
+}
+int id_tracker()
+{
+    FILE* id_file = fopen("id.txt", "a+");
+    int transaction_id = auto_increment(); 
+    
+    fprintf(id_file, "%d\n", transaction_id);
+    fclose(id_file);
+
+    return transaction_id;
+}
 
 void get_transaction_details(Transaction *transaction)
 {
@@ -35,13 +52,8 @@ void file_opening_check(FILE* file)
     }
 }
 
-int auto_increment()
-{
-    static int transaction_id = 0;
-    transaction_id++;
-    return transaction_id;
-}
 
+// function to write the date to the file
 void write_to_file(Transaction transaction, int transaction_id, FILE* file)
 {
     fprintf(file, "transaction id: %d\n", transaction_id);
@@ -79,7 +91,7 @@ int main(void)
         if (user_option == 1)
         {
             get_transaction_details(&transaction);
-            int transaction_id = auto_increment(); 
+            int transaction_id = id_tracker();
             add_transaction(transaction, transaction_id);
         }
     } 
