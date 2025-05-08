@@ -26,6 +26,7 @@ int auto_increment()
     return transaction_id;
 }
 
+
 // TODO: implementing add transation
 void add_transaction(Transaction transaction, int transaction_id)
 {
