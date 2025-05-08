@@ -42,6 +42,14 @@ int auto_increment()
     return transaction_id;
 }
 
+void write_to_file(Transaction transaction, int transaction_id, FILE* file)
+{
+    fprintf(file, "transaction id: %d\n", transaction_id);
+    fprintf(file, "transaction date: %s\n", transaction.date);
+    fprintf(file, "transaction type: %s\n", transaction.type);
+    fprintf(file, "transaction amount: %f\n", transaction.amount);
+    fprintf(file, "transaction category: %s\n\n", transaction.category);
+}
 
 // TODO: implementing add transation
 void add_transaction(Transaction transaction, int transaction_id)
@@ -53,19 +61,13 @@ void add_transaction(Transaction transaction, int transaction_id)
     // file checking
     file_opening_check(file);
     
-    // incrementing the id each time this function is called.
     //TODO: writing to finance.txt
-    fprintf(file, "transaction id: %d\n", transaction_id);
-    fprintf(file, "transaction date: %s\n", transaction.date);
-    fprintf(file, "transaction type: %s\n", transaction.type);
-    fprintf(file, "transaction amount: %f\n", transaction.amount);
-    fprintf(file, "transaction category: %s\n\n", transaction.category);
-
+    write_to_file(transaction, transaction_id, file);
+    
     //close the file
     fclose(file);
     
 }
-
 
 int main(void)
 {
